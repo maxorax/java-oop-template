@@ -7,11 +7,8 @@ public class SimpleAuthorRepository implements AuthorRepository {
   private Author[] authors=new Author[]{};
 
     public boolean save(Author author){
-
         Author tempAuthor=findByFullName(author.getName(),author.getLastName());
-        if(tempAuthor!=null){
-            author.setName(tempAuthor.getName());
-            author.setLastName(tempAuthor.getLastName());
+        if(tempAuthor==null){
             Author[] tempAuthors=new Author[authors.length+1];
             tempAuthors[authors.length]=author;
             authors=tempAuthors;
@@ -24,32 +21,27 @@ public class SimpleAuthorRepository implements AuthorRepository {
     public Author findByFullName(String name, String lastname){
         for (int i=0;i<authors.length;i++){
             if (authors[i].getName() == name && authors[i].getLastName()==lastname) {
-            return null;
+            return authors[i];
             }
         }
-        Author tempAuthor=new Author();
-        tempAuthor.setLastName(lastname);
-        tempAuthor.setName(name);
-        return tempAuthor;
+        return null;
     }
    public boolean remove(Author author){
        Author tempAuthor=findByFullName(author.getName(),author.getLastName());
        if(tempAuthor!=null){
-           int count;
-           for ( count=0;count<authors.length;count++) {
-              if(authors[count]==author){
-                  authors[count]=null;
-              }
-           }
            Author[] tempAuthors=new Author[authors.length-1];
-           System.arraycopy(authors,0,tempAuthor,0,count-1);
-           System.arraycopy(authors,count+1,tempAuthors,count,authors.length-count);
+           for (int i = 0; i < tempAuthors.length ; i++) {
+               if(authors[i].getName()!=author.getName() && authors[i].getLastName()!=author.getLastName())
+                   tempAuthors[i]=authors[i];
+           }
            authors=tempAuthors;
            return true;
        } else {
            return false;
        }
    }
+
+   @Override
     public int count(){ return authors.length;}
 
 }

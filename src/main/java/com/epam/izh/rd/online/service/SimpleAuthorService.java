@@ -12,16 +12,18 @@ public class SimpleAuthorService implements AuthorService  {
     }
 
     public boolean save(Author author){
-                return new SimpleAuthorRepository().save(author);
+                return authorRepository.save(author);
     }
 
     public Author findByFullName(String name, String lastname){
-        return new SimpleAuthorRepository().findByFullName(name,lastname);
+        return authorRepository.findByFullName(name,lastname);
     }
 
     public boolean remove(Author author){
-        return new SimpleAuthorRepository().remove(author);
+        return authorRepository.remove(author);
     }
-    public int count(){return new SimpleAuthorRepository().count();};
+
+    @Override
+    public int count(){return  authorRepository.count();};
 
 }
